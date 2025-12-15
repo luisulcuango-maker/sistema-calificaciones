@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panel del Estudiante</title>
+  <link rel="stylesheet" href="css/estudiante.css" />
+</head>
+<body>
+  <header>
+    <h1>Panel del Estudiante</h1>
+    <div id="userInfo" style="font-size:0.9rem; color:#333; margin-bottom:10px;"></div>
+    <button id="logoutBtn">Cerrar Sesión</button>
+  </header>
+
+  <div class="container">
+    <!-- Lista de exámenes -->
+    <section class="card section">
+      <h2>Exámenes Disponibles</h2>
+      <select id="selectExamen">
+        <option value="">-- Selecciona un examen --</option>
+      </select>
+      <button id="btnIniciar" disabled>Iniciar Examen</button>
+    </section>
+
+    <!-- Examen -->
+    <section class="card section" id="examenContainer" style="display:none;">
+      <h2 id="tituloExamen"></h2>
+
+      <!-- Progreso del examen -->
+      <div id="progreso" style="margin-bottom:10px; font-weight:bold;"></div>
+
+      <form id="formExamen" class="stack-md"></form>
+
+      <!-- Botones de navegación -->
+      <div style="margin-top:15px;">
+        <button type="button" id="btnSiguiente" style="display:none;">Siguiente</button>
+        <button type="button" id="btnEnviar" style="display:none;">Enviar Examen</button>
+      </div>
+    </section>
+
+    <p id="msg"></p>
+  </div>
+
+  <!-- Scripts -->
+  <script type="module" src="js/firebase-config.js"></script>
+  <script type="module" src="js/estudiante.js"></script>
+</body>
+</html>

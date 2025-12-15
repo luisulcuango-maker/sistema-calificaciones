@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel del Docente</title>
+  <link rel="stylesheet" href="css/panel-docente.css">
+  <style>
+   
+  </style>
+</head>
+<body>
+  <!-- Barra superior -->
+  <header>
+    <h1>Panel del Docente</h1>
+    <div style="display:flex; align-items:center;">
+      <div id="userInfo">👤 Usuario | 📧 correo | 🎓 Docente</div>
+      <button id="logoutBtn">Cerrar Sesión</button>
+    </div>
+  </header>
+
+  <!-- Contenedor principal -->
+  <div class="main">
+    <!-- Menú lateral -->
+    <nav>
+      <a href="crear-examen.html" target="contentFrame">➕ Crear Examen</a>
+      <a href="reporte_respuestas.html" target="contentFrame">📊 Reporte Respuestas</a>
+    </nav>
+
+    <!-- Contenido dinámico -->
+    <div class="content">
+      <iframe name="contentFrame" src="crear-examen.html"></iframe>
+    </div>
+  </div>
+
+  <!-- Firebase y control -->
+  <script type="module" src="js/firebase-config.js"></script>
+  <script type="module">
+    import { auth, db } from './js/firebase-config.js';
+    import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { ref, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+    const userInfo = document.getElementById("userInfo");
+    const logoutBtn = document.getElementById("logoutBtn");
+
+    // Cerrar sesión
+    logoutBtn.addEventListener("click", async () => {
+      await signOut(auth);
+      window.location.href = "index.html";
+    });
+
+    // Mostrar datos del usuario
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        window.location.href = "index.html";
+        return;
+      }
+      const snap = await get(ref(db, `usuarios/${user.uid}`));
+      if (snap.exists()) {
+        const { nombre, email, rol } = snap.val();
+        userInfo.textContent = `👤 ${nombre} | 📧 ${email} | 🎓 ${rol}`;
+      }
+    });
+  </script>
+</body>
+</html>
